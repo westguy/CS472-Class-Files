@@ -69,7 +69,7 @@ RECV FROM SERVER -> Requested Course Not Found
     |                     MSG: Message Data*                        |
     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-    We could reuse some of the inormation from the class information protocol, while introducting fields for
+    We could reuse some of the data from the class information protocol, while introducting fields for
     the new information required for course registration. Seats, sections, and fields for confirming registration
     and requesting section overrides could be handled in 4 bytes, timeslots are going to need more. Pre-requisite
     courses could take up an unknown amount of bytes, so this will have to be returned in a payload. The
