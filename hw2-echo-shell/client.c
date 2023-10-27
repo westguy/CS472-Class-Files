@@ -71,8 +71,10 @@ static void init_header(cs472_proto_header_t *header, int req_cmd, char *reqData
 
     header->proto = PROTO_CS_FUN;
     header->cmd = req_cmd;
-
-    //TODO: Setup other header fields, eg., header->ver, header->dir, header->atm, header->ay
+    header->ver = PROTO_VER_1;
+    header->dir = DIR_SEND;
+    header->atm = TERM_FALL;
+    header->ay = 2023;
 
     //switch based on the command
     switch(req_cmd){
@@ -130,15 +132,9 @@ static void start_client(cs472_proto_header_t *header, uint8_t *packet){
     addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     addr.sin_port = htons(PORT_NUM);
 
-    /*
-     * TODO:  The next things you need to do is to handle the cleint
-     * socket to send things to the server, basically make the following
-     * calls:
-     * 
-     *      connect()
-     *      send() - recall that the formatted packet is passed in
-     *      recv() - get the response back from the server
-     */
+    connect(data_socket, &addr, sizeof(struct sockaddr_in));
+    send(data_socket, send_buffer, sizeof(send_buffer), 0);
+    recv(data_socket, recv_buffer, BUFF_SZ, 0);
 
     //Now process what the server sent, here is some helper code
     cs472_proto_header_t *pcktPointer =  (cs472_proto_header_t *)recv_buffer;
