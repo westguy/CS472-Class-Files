@@ -245,14 +245,16 @@ static int dprecvraw(dp_connp dp, void *buff, int buff_sz){
 }
 
 int dpsend(dp_connp dp, void *sbuff, int sbuff_sz){
-
+    int sndSz = 0;
 
     //For now, we will not be able to send larger than the biggest datagram
-    if(sbuff_sz > dpmaxdgram()) {
-        return DP_BUFF_UNDERSIZED;
+    while(sbuff_sz > dpmaxdgram()) {
+        void* buffPtr = &sbuff;
+        sndSz += dpsenddgram(dp, buffPtr, sizeof(buffPtr));
+        buffPtr += sizeof(buffPtr);
     }
 
-    int sndSz = dpsenddgram(dp, sbuff, sbuff_sz);
+    sndSz += dpsenddgram(dp, sbuff, sbuff_sz);
 
     return sndSz;
 }
